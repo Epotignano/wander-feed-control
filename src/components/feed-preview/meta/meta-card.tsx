@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import { ListingElement } from './types';
-import { MetaImagesGalleryDialog } from './meta-images-gallery-dialog';
 
 interface MetaCardProps {
   listing: ListingElement;
@@ -47,7 +46,6 @@ export function MetaCard({ listing }: MetaCardProps) {
     return <DebugCard listing={listing} />;
   }
 
-  const mainImageUrl = listing.images?.[0] || '';
   const [street, city, zipCode, state] = listing?.ADDRESS?.COMPONENT || [];
 
   const formatPrice = (price: string) => {
@@ -101,55 +99,62 @@ export function MetaCard({ listing }: MetaCardProps) {
       </div>
 
       <div className="p-4">
-        <div className="grid grid-cols-2 gap-4">
-          <div className="aspect-square relative rounded-lg overflow-hidden">
-            {mainImageUrl && listing.images && listing.images.length > 0 && (
-              <MetaImagesGalleryDialog
-                images={listing.images}
-                listingName={listing.NAME}
-              >
-                <div className="relative w-full h-full cursor-pointer group">
-                  <Image
-                    src={mainImageUrl}
-                    alt={listing.NAME}
-                    fill
-                    className="object-cover transition-transform group-hover:scale-105"
-                  />
-                  {listing.images.length > 1 && (
-                    <div className="absolute bottom-2 right-2 px-2 py-1 bg-black/50 rounded text-xs text-white">
-                      +{listing.images.length - 1} more
-                    </div>
-                  )}
-                </div>
-              </MetaImagesGalleryDialog>
-            )}
-          </div>
-          <div className="flex flex-col">
-            <h4 className="font-medium text-gray-900 mb-2">Location</h4>
-            <div className="text-sm text-gray-600 space-y-1">
-              <p>{street}</p>
-              <p>{city && state ? `${city}, ${state} ${zipCode}` : ''}</p>
-              <p>{listing.COUNTRY}</p>
-              <p className="text-xs text-gray-500">
-                {listing.LATITUDE}, {listing.LONGITUDE}
-              </p>
-            </div>
-            <div className="mt-auto">
-              <p className="text-sm text-gray-500 mb-2 line-clamp-2">{listing.DESCRIPTION}</p>
-              {listing.propertyUrl && (
-                <a
-                  href={listing.propertyUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800"
+        {listing.images && listing.images.length > 0 ? (
+          <div>
+            <h4 className="font-medium text-gray-900 mb-2">Images ({listing.images.length})</h4>
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              {listing.images.map((imageUrl, index) => (
+                <div 
+                  key={imageUrl} 
+                  className="relative aspect-square rounded-lg overflow-hidden bg-gray-100 group"
                 >
-                  View on Wander
-                  <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                  </svg>
-                </a>
-              )}
+                  <Image
+                    src={imageUrl.replace('fullres', '640')}
+                    alt={`${listing.NAME} - Image ${index + 1}`}
+                    fill
+                    sizes="(max-width: 640px) 33vw, 200px"
+                    className="object-cover transition-transform group-hover:scale-105"
+                    // loading={index < 6 ? "eager" : "lazy"}
+                    quality={70}
+                  />
+                  <div className="absolute bottom-1 right-1 px-1.5 py-0.5 bg-black/50 rounded text-xs text-white">
+                    {index + 1}
+                  </div>
+                </div>
+              ))}
             </div>
+          </div>
+        ) : (
+          <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 mb-4">
+            <p className="text-sm text-yellow-700">No images available for this property</p>
+          </div>
+        )}
+
+        <div className="flex flex-col">
+          <h4 className="font-medium text-gray-900 mb-2">Location</h4>
+          <div className="text-sm text-gray-600 space-y-1">
+            <p>{street}</p>
+            <p>{city && state ? `${city}, ${state} ${zipCode}` : ''}</p>
+            <p>{listing.COUNTRY}</p>
+            <p className="text-xs text-gray-500">
+              {listing.LATITUDE}, {listing.LONGITUDE}
+            </p>
+          </div>
+          <div className="mt-4">
+            <p className="text-sm text-gray-500 mb-2 line-clamp-2">{listing.DESCRIPTION}</p>
+            {listing.propertyUrl && (
+              <a
+                href={listing.propertyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-sm text-blue-600 hover:text-blue-800"
+              >
+                View on Wander
+                <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            )}
           </div>
         </div>
       </div>
