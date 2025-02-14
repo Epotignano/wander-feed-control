@@ -26,12 +26,9 @@ export function MetaFeedContent({ initialListings, initialStatuses }: MetaFeedCo
 
   return (
     <div className="min-h-screen p-8 bg-gray-50">
-      <pre>
-        {JSON.stringify(selectedStatuses, null, 2)}
-      </pre>
-      <div className="max-w-7xl mx-auto">
+      <div className="mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-semibold text-gray-900">Meta Feed Integration</h1>
+          <h1 className="text-3xl font-semibold text-gray-900">Meta Feed Preview</h1>
           <div className="flex items-center gap-4">
             <StatusFilterClient
               title="Status"

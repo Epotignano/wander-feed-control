@@ -68,10 +68,10 @@ export function MetaCard({ listing }: MetaCardProps) {
             <h3 className="text-lg font-semibold text-gray-900 mb-1">{listing.NAME}</h3>
             <p className="text-sm text-gray-500">{listing.BRAND} • {listing.CATEGORY}</p>
           </div>
-          <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-            listing.STATUS === 'active' ? 'bg-green-100 text-green-800' :
-            listing.STATUS === 'archived' ? 'bg-gray-100 text-gray-800' :
-            'bg-yellow-100 text-yellow-800'
+          <span className={`px-3 py-1 text-xs rounded-full uppercase font-bold ${
+            listing.STATUS === 'active' ? 'bg-green-100 text-green-800 border border-green-500' :
+            listing.STATUS === 'archived' ? 'bg-gray-100 text-gray-800 border border-gray-500' :
+            'bg-yellow-100 text-yellow-800 border border-yellow-500'
           }`}>
             {listing.STATUS}
           </span>

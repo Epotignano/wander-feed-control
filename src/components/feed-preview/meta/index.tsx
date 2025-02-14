@@ -10,7 +10,6 @@ export function FeedPreviewMeta({ listings }: FeedPreviewMetaProps) {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-xl font-medium text-gray-900">Meta Feed Preview</h2>
           <p className="text-sm text-gray-500">Showing {listings.length} properties from Meta feed</p>
         </div>
         <div className="flex items-center gap-2">
