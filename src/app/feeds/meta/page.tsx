@@ -16,6 +16,8 @@ async function getMetaFeed() {
     cache: 'no-store',
   });
 
+  console.log('response', response);
+
   if (!response.ok) {
     console.error('Failed to fetch data:', response.statusText);
     return null;
