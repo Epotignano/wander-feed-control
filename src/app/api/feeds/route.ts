@@ -1,11 +1,11 @@
 import { transformListing } from '@/components/feed-preview/meta/types';
 import { NextResponse } from 'next/server';
 
-// import { xmlToJson, type XMLObject } from "@/lib/utils";
-// import { ListingElement, transformListing } from '@/components/feed-preview/meta/types';
 import { XMLObject } from '@/lib/utils';
 import { xmlToJson } from '@/lib/utils';
 import { ListingElement } from '@/components/feed-preview/meta/types';
+
+const feedServerHost = process.env.FEED_SERVER_HOST || 'http://localhost:8000';
 
 interface FeedsResponse {
     listings?: ListingElement[];
@@ -16,7 +16,7 @@ export async function GET(): Promise<NextResponse<FeedsResponse>> {
     try {
         console.log('Fetching meta feed...');
         const response = await fetch(
-            'https://wander-growth.onrender.com/hotel_feeds/meta?static-only=true',
+            `${feedServerHost}/hotel_feeds/meta?static-only=true`,
             {
                 next: {
                     revalidate: 86400 // Cache for 24 hours (in seconds)
