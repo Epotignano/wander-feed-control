@@ -7,7 +7,6 @@ function getUniqueStatuses(listings: ListingElement[]): (string | null)[] {
   return Array.from(statuses);
 }
 
-
 async function getMetaFeed() {
   const response = await fetch(`${host}/api/feeds`, {
     method: 'GET',
