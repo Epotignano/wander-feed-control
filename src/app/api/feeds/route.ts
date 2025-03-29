@@ -6,6 +6,7 @@ import { xmlToJson } from '@/lib/utils';
 import { ListingElement } from '@/components/feed-preview/meta/types';
 
 const feedServerHost = process.env.FEED_SERVER_HOST || 'http://localhost:8000';
+const apiKey = process.env.API_KEY || '';
 
 interface FeedsResponse {
     listings?: ListingElement[];
@@ -16,7 +17,7 @@ export async function GET(): Promise<NextResponse<FeedsResponse>> {
     try {
         console.log('Fetching meta feed...');
         const response = await fetch(
-            `${feedServerHost}/hotel_feeds/meta?static-only=true`,
+            `${feedServerHost}/hotel_feeds/meta?apiKey=${apiKey}&static-only=true`,
             {
                 next: {
                     revalidate: 86400 // Cache for 24 hours (in seconds)
